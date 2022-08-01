@@ -106,6 +106,3 @@ def save_data_to_topic(data_frame, topic_name, token):
     pass
 
 
-# df = load_dataset_by_name("WaRWTH5T-a3rxxqSvPtN6g", "customer_dataset")
-#
-# print(df.dtypes)

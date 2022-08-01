@@ -31,7 +31,3 @@ class WatchmenClient(object):
     def register_model(self):
         pass
 
-#
-# client  = WatchmenClient(token="0Z6ag50cdIPamBIgf8KfoQ")
-# df = client.load_dataset("DEMO")
-# print(df)
