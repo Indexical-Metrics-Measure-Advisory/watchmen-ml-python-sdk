@@ -2,7 +2,8 @@ import os
 
 from pandas import DataFrame
 
-from ml_sdk.ml.sdk.watchmen.sdk import load_dataset_by_name, push_notebook_to_watchmen
+from ml_sdk.ml.sdk.watchmen.sdk import load_dataset_by_name, push_notebook_to_watchmen, call_indicator_data_api, \
+    load_indicator_by_id
 from ml_sdk.ml.unitls import get_notebook, get_environment
 
 
@@ -15,6 +16,26 @@ class WatchmenClient(object):
 
     def load_dataset(self, name,dataframe_type="pandas"):
         return load_dataset_by_name(self.token, name,dataframe_type)
+
+
+    def load_indicator_value(self,indicator_id,aggregate_arithmetic):
+        indicator = load_indicator_by_id(self.token, indicator_id)
+        payload = {
+            "current":{
+                "aggregateArithmetic":aggregate_arithmetic,
+                "indicatorId":indicator_id,
+                "name":"",
+                "variableName":"v2"
+            }
+        }
+        result = call_indicator_data_api(self.token,payload)
+        return result
+
+    def load_summary_data(self):
+
+        ## use template report api
+        pass
+
 
     def register_notebook(self, storage_type="file"):
         notebook = get_notebook(storage_type)

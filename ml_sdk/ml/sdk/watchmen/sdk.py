@@ -29,6 +29,18 @@ def build_indicators_and_types(columns):
     return indicators, types
 
 
+def call_indicator_data_api(token,data):
+    response = requests.post(local_env_url + "/indicator/achievement/data", data=json.dumps(data), headers=build_headers(token))
+    return response.json()
+
+
+def load_indicator_by_id(token,indicator_id):
+    response = requests.get(local_env_url + "/indicator/indicator", params={"indicator_id":indicator_id},
+                             headers=build_headers(token))
+
+    return response.json()
+
+
 def get_topic_ids(types):
     ids = []
     for column in types:
