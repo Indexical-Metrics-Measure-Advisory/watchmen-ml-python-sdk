@@ -41,6 +41,13 @@ def load_indicator_by_id(token,indicator_id):
     return response.json()
 
 
+def load_achievement_by_id(token,achievement_id):
+    response = requests.get(local_env_url + "/indicator/achievement", params={"achievement_id": achievement_id},
+                            headers=build_headers(token))
+
+    return response.json()
+
+
 def get_topic_ids(types):
     ids = []
     for column in types:

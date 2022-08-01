@@ -3,7 +3,7 @@ import os
 from pandas import DataFrame
 
 from ml_sdk.ml.sdk.watchmen.sdk import load_dataset_by_name, push_notebook_to_watchmen, call_indicator_data_api, \
-    load_indicator_by_id
+    load_indicator_by_id, load_achievement_by_id
 from ml_sdk.ml.unitls import get_notebook, get_environment
 
 
@@ -18,12 +18,22 @@ class WatchmenClient(object):
         return load_dataset_by_name(self.token, name,dataframe_type)
 
 
-    def load_indicator_value(self,indicator_id,aggregate_arithmetic):
+    def load_achievement(self, achievement_id):
+        return load_achievement_by_id(self.token,achievement_id)
+
+
+    def load_indicator_value_by_achievement_id(self,achievement_id,indicator_id,filters):
+        pass
+
+
+
+    def load_indicator_value(self,indicator_id,aggregate_arithmetic,filters):
         indicator = load_indicator_by_id(self.token, indicator_id)
         payload = {
             "current":{
                 "aggregateArithmetic":aggregate_arithmetic,
                 "indicatorId":indicator_id,
+                "criteria":filters,
                 "name":"",
                 "variableName":"v2"
             }
