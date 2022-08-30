@@ -5,16 +5,16 @@ import pandas as pd
 import requests
 from pandas import DataFrame
 
-from ml_sdk.ml.model.factor_type import FactorType
-from ml_sdk.ml.model.notebook import WatchmenNotebook
-from ml_sdk.ml.pd.untils import convert_to_pandas_type
+from client.ml.model.factor_type import FactorType
+from client.ml.model.notebook import WatchmenNotebook
+from client.ml.pd.untils import convert_to_pandas_type
 
 ##TODO set url to env
 local_env_url = "http://localhost:8000"
 
 
 # import requests
-# from ml_sdk.ml.sdk.watchmen.sdk import build_headers
+# from client.ml.sdk.watchmen.sdk import build_headers
 
 # local_env_url = "http://localhost:8000"
 

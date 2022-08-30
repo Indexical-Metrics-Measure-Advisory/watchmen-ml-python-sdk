@@ -3,7 +3,7 @@ import os
 import ipynbname
 import pkg_resources
 
-from ml_sdk.ml.model.notebook import WatchmenNotebook
+from client.ml.model.notebook import WatchmenNotebook
 
 
 def get_notebook(storage_type: str, storage_location: str = None):

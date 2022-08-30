@@ -1,11 +1,11 @@
 [tool.poetry]
 name = "watchmen-ml-python-sdk"
-version = "0.1.14"
+version = "0.1.15"
 description = ""
 authors = ["luke0623 <luke0623@outlook.com>"]
 
 packages = [
-    { include = "ml_sdk"}
+    { include = "client"}
 ]
 
 [tool.poetry.dependencies]

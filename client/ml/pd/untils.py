@@ -1,4 +1,4 @@
-from ml_sdk.ml.model.factor_type import FactorType
+from client.ml.model.factor_type import FactorType
 
 
 def convert_to_pandas_type(factor_type: FactorType) -> str:

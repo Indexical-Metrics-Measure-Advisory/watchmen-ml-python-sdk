@@ -2,9 +2,9 @@ import os
 
 from pandas import DataFrame
 
-from ml_sdk.ml.sdk.watchmen.sdk import load_dataset_by_name, push_notebook_to_watchmen, call_indicator_data_api, \
-    load_indicator_by_id, load_achievement_by_id
-from ml_sdk.ml.unitls import get_notebook, get_environment
+from client.ml.unitls import get_notebook, get_environment
+from client.sdk.watchmen.sdk import load_dataset_by_name, push_notebook_to_watchmen, call_indicator_data_api, \
+	load_indicator_by_id, load_achievement_by_id
 
 
 class WatchmenClient(object):
