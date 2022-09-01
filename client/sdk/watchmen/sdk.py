@@ -13,11 +13,6 @@ from client.ml.pd.untils import convert_to_pandas_type
 local_env_url = "http://localhost:8000"
 
 
-# import requests
-# from client.ml.sdk.watchmen.sdk import build_headers
-
-# local_env_url = "http://localhost:8000"
-
 
 def build_headers(token):
 	headers = {"Content-Type": "application/json"}
@@ -63,9 +58,10 @@ def get_topic_ids(types):
 	ids = []
 	for column in types:
 		parameter = column["parameter"]
-		topic_id = parameter["topicId"]
-		if topic_id not in ids:
-			ids.append(topic_id)
+		if "topicId" in parameter:
+			topic_id = parameter["topicId"]
+			if topic_id not in ids:
+				ids.append(topic_id)
 	return ids
 
 
@@ -99,10 +95,13 @@ def build_columns_types(types, topics):
 
 	for column in types:
 		parameter = column["parameter"]
-		topic_id = parameter["topicId"]
-		factor_id = parameter["factorId"]
-		factor = find_factor(topic_id, factor_id, topics)
-		columns_dict[column["name"]] = FactorType(factor["type"])
+		if parameter["kind"] =="topic":
+			topic_id = parameter["topicId"]
+			factor_id = parameter["factorId"]
+			factor = find_factor(topic_id, factor_id, topics)
+			columns_dict[column["name"]] = FactorType(factor["type"])
+		else:
+			columns_dict[column["name"]] = FactorType("text")
 	return columns_dict
 
 
