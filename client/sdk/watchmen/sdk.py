@@ -8,9 +8,9 @@ from pandas import DataFrame
 from client.ml.model.factor_type import FactorType
 from client.ml.model.notebook import WatchmenNotebook
 from client.ml.pd.untils import convert_to_pandas_type
-
-##TODO set url to env
-local_env_url = "http://localhost:8000"
+#
+# ##TODO set url to env
+# local_env_url = "http://localhost:8000"
 
 
 
@@ -20,8 +20,8 @@ def build_headers(token):
 	return headers
 
 
-def load_subject_by_id(token, subject_id):
-	response = requests.get(local_env_url + "/indicator/subject", params={"subject_id": subject_id},
+def load_subject_by_id(token,host, subject_id):
+	response = requests.get(host + "/indicator/subject", params={"subject_id": subject_id},
 	                        headers=build_headers(token))
 	return response.json()
 
@@ -35,20 +35,20 @@ def build_indicators_and_types(columns):
 	return indicators, types
 
 
-def call_indicator_data_api(token, data):
-	response = requests.post(local_env_url + "/indicator/achievement/data", data=json.dumps(data),
+def call_indicator_data_api(token,host, data):
+	response = requests.post(host + "/indicator/achievement/data", data=json.dumps(data),
 	                         headers=build_headers(token))
 	return response.json()
 
 
-def load_indicator_by_id(token, indicator_id):
-	response = requests.get(local_env_url + "/indicator/indicator", params={"indicator_id": indicator_id},
+def load_indicator_by_id(token, host,indicator_id):
+	response = requests.get(host + "/indicator/indicator", params={"indicator_id": indicator_id},
 	                        headers=build_headers(token))
 	return response.json()
 
 
-def load_achievement_by_id(token, achievement_id):
-	response = requests.get(local_env_url + "/indicator/achievement", params={"achievement_id": achievement_id},
+def load_achievement_by_id(token,host, achievement_id):
+	response = requests.get(host + "/indicator/achievement", params={"achievement_id": achievement_id},
 	                        headers=build_headers(token))
 
 	return response.json()
@@ -65,8 +65,8 @@ def get_topic_ids(types):
 	return ids
 
 
-def load_topic_by_id(topic_ids: List, token):
-	response = requests.post(local_env_url + "/topic/ids", data=json.dumps(topic_ids), headers=build_headers(token))
+def load_topic_by_id(topic_ids: List, token,host):
+	response = requests.post(host + "/topic/ids", data=json.dumps(topic_ids), headers=build_headers(token))
 	topics = response.json()
 	return topics
 
@@ -105,8 +105,8 @@ def build_columns_types(types, topics):
 	return columns_dict
 
 
-def load_dataset_by_name(token, name, dataframe_type="pandas"):
-	response = requests.get(local_env_url + "/subject/name", params={"name": name}, headers=build_headers(token))
+def load_dataset_by_name(token, host ,subject_id, dataframe_type="pandas"):
+	response = requests.get(host + "/subject", params={"subject_id": subject_id}, headers=build_headers(token))
 	subject = response.json()
 	indicators_list, types = build_indicators_and_types(subject["dataset"]["columns"])
 	criteria = {
@@ -114,18 +114,18 @@ def load_dataset_by_name(token, name, dataframe_type="pandas"):
 		"indicators": indicators_list
 	}
 
-	topics = load_topic_by_id(get_topic_ids(types), token)
+	topics = load_topic_by_id(get_topic_ids(types), token,host)
 	columns_dict = build_columns_types(types, topics)
 
-	response = requests.post(local_env_url + "/subject/data/criteria", data=json.dumps(criteria),
+	response = requests.post(host + "/subject/data/criteria", data=json.dumps(criteria),
 	                         headers=build_headers(token))
 	dataset = response.json()["data"]
 	df = pd.DataFrame(dataset, columns=list(map(lambda x: x["name"], indicators_list)))
 	return convert_data_frame_type_by_types(df, columns_dict)
 
 
-def push_notebook_to_watchmen(notebook: WatchmenNotebook, token):
-	response = requests.post(local_env_url + "/notebook", data=notebook.json(),
+def push_notebook_to_watchmen(notebook: WatchmenNotebook, token,host):
+	response = requests.post(host + "/notebook", data=notebook.json(),
 	                         headers=build_headers(token))
 	return response
 

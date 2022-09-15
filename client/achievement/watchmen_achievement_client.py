@@ -20,7 +20,7 @@ class WatchmenStreamlitClient(object):
 		for indicator_data in indicator_list:
 			indicator_id = indicator_data["indicatorId"]
 			if indicator_id != "-1":
-				indicator = load_indicator_by_id(self.watchmen_client.token, indicator_data["indicatorId"])
+				indicator = load_indicator_by_id(self.watchmen_client.token,self.watchmen_client.host, indicator_data["indicatorId"])
 				self.indicators_dict[indicator["name"].upper()] = {"indicator": indicator, "node": indicator_data}
 
 	def load_achievement_by_id(self, achievement_id):
@@ -38,13 +38,13 @@ class WatchmenStreamlitClient(object):
 		for filter in filters:
 			if filter["factor"] == "year":
 				for criteria in criterias:
-					if criteria["value"] == "year":
+					if criteria["value"] == "{&year}":
 						result = criteria.copy()
 						result["value"] = str(filter["value"])
 						results.append(result)
 			elif filter["factor"] == "month":
 				for criteria in criterias:
-					if criteria["value"] == "month":
+					if criteria["value"] == "{&month}":
 						result = criteria.copy()
 						result["value"] = str(filter["value"])
 						results.append(result)
@@ -58,8 +58,8 @@ class WatchmenStreamlitClient(object):
 						})
 		return results
 
-	def load_dataset(self, name):
-		return self.watchmen_client.load_dataset(name)
+	def load_dataset(self, subject_id):
+		return self.watchmen_client.load_dataset(subject_id)
 
 	def load_indicator_value_by_name(self, indicator_name, aggregate_arithmetic, filter=[]):
 		if isinstance(indicator_name, str):
@@ -68,7 +68,7 @@ class WatchmenStreamlitClient(object):
 				indicator = self.indicators_dict[up_name]
 				criteria = indicator["node"]["criteria"]
 				subject_id = indicator["indicator"]["topicOrSubjectId"]
-				subject = load_subject_by_id(self.watchmen_client.token, subject_id)
+				subject = load_subject_by_id(self.watchmen_client.token,self.watchmen_client.host ,subject_id)
 				filters = self.__merge_date_conditions(criteria, filter, subject)
 				return self.load_metric_value(indicator["indicator"]["indicatorId"], aggregate_arithmetic, filters)
 
