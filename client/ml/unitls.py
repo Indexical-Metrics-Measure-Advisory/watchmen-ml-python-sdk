@@ -25,7 +25,6 @@ def get_dependencies(notebook: WatchmenNotebook):
 
 def get_environment():
 	environments = {}
-	# environments = os.environ.values()
 	for item, value in os.environ.items():
 		environments[item] = value
 
